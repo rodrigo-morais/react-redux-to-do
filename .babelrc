@@ -1,0 +1,14 @@
+{
+  "env": {
+    "test": {
+      "plugins": ["transform-object-rest-spread"]
+    },
+    "development": {
+      "plugins":  [
+                    "transform-es2015-modules-amd",
+                    "transform-object-rest-spread"
+                  ]
+    }
+  },
+  "presets": ["es2015"]
+}
