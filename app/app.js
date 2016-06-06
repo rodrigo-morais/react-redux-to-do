@@ -1,4 +1,4 @@
-import { ADD_TODO } from './actions'
+import { addTodo, ADD_TODO } from './actions'
 import { createStore } from '../node_modules/redux/dist/redux'
 
 const initialState = {
@@ -21,6 +21,6 @@ const todo = (state = initialState, action) => {
   }
 }
 
-const store = createStore(todo)
+export const store = createStore(todo)
 
-export default store
+export const boundAddTodo = (text) => store.dispatch(addTodo(text))
