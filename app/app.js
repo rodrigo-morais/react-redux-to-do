@@ -1,4 +1,4 @@
-import { addTodo, ADD_TODO } from './actions'
+import { addTodo, removeTodo, ADD_TODO, REMOVE_TODO } from './actions'
 import { createStore } from '../node_modules/redux/dist/redux'
 
 const initialState = {
@@ -12,9 +12,14 @@ const todo = (state = initialState, action) => {
         todos: [
           ...state.todos,
           {
-            text: action.text
+            text: action.text,
+            index: action.index
           }
         ]
+      }
+    case REMOVE_TODO:
+      return {...state,
+        todos: state.todos.filter((todo) => todo.index !== action.index)
       }
     default:
       return state
@@ -23,4 +28,5 @@ const todo = (state = initialState, action) => {
 
 export const store = createStore(todo)
 
-export const boundAddTodo = (text) => store.dispatch(addTodo(text))
+export const boundAddTodo = (text) => store.dispatch(addTodo( store.getState().todos.length + 1, text))
+export const boundRemoveTodo = (index) => store.dispatch(removeTodo(index))
