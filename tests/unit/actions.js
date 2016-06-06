@@ -4,7 +4,7 @@ import 'babel-polyfill'
 
 import { expect } from 'chai'
 import deepFreeze from 'deep-freeze'
-import { addTodo, removeTodo, ADD_TODO, REMOVE_TODO } from '../../app/actions'
+import { addTodo, removeTodo, toggleTodo, ADD_TODO, REMOVE_TODO, TOGGLE_TODO } from '../../app/actions'
 
 describe('Todo', () => {
   context('Actions', () => {
@@ -25,6 +25,16 @@ describe('Todo', () => {
             index: 1
           },
           todoReturn = removeTodo(1)
+
+      expect(expected).to.deep.equal(todoReturn)
+    })
+
+    it("should return an object with the type as TOGGLE_TODO and the index", () => {
+      let expected = {
+            type: TOGGLE_TODO,
+            index: 1
+          },
+          todoReturn = toggleTodo(1)
 
       expect(expected).to.deep.equal(todoReturn)
     })

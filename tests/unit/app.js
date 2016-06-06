@@ -12,7 +12,8 @@ describe('Todo', () => {
       let expected = {
             todos: [{
               text: 'first text',
-              index: 1
+              index: 1,
+              completed: false
             }]
           }
 
@@ -27,11 +28,13 @@ describe('Todo', () => {
       let expected = {
             todos: [{
               text: 'first text',
-              index: 1
+              index: 1,
+              completed: false
             },
             {
               text: 'second text',
-              index: 2
+              index: 2,
+              completed: false
             }]
           }
 
@@ -46,7 +49,8 @@ describe('Todo', () => {
       let expected = {
             todos: [{
               text: 'first text',
-              index: 1
+              index: 1,
+              completed: false
             }]
           }
 
@@ -61,7 +65,8 @@ describe('Todo', () => {
       let expected = {
             todos: [{
               text: 'first text',
-              index: 1
+              index: 1,
+              completed: false
             }]
           }
 
@@ -82,6 +87,38 @@ describe('Todo', () => {
       appTodo.boundRemoveTodo(1)
 
       expect(0).to.be.equal(appTodo.store.getState().todos.length)
+    })
+
+    it("should return an array with one incomplete Todo when it is empty", () => {
+      let expected = {
+            todos: [{
+              text: 'first text',
+              index: 1,
+              completed: false
+            }]
+          }
+
+      deepFreeze(appTodo)
+
+      appTodo.boundAddTodo('first text')
+
+      expect(expected).to.deep.equal(appTodo.store.getState())
+    })
+
+    it("should return an array with one complete Todo when it was incompleted", () => {
+      deepFreeze(appTodo)
+
+      appTodo.boundToggleTodo(1)
+
+      expect(true).to.be.equal(appTodo.store.getState().todos[0].completed)
+    })
+
+    it("should return an array with one incomplete Todo when it was completed", () => {
+      deepFreeze(appTodo)
+
+      appTodo.boundToggleTodo(1)
+
+      expect(false).to.be.equal(appTodo.store.getState().todos[0].completed)
     })
   })
 })
