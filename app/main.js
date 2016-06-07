@@ -13,16 +13,31 @@ const deleteTodo = (event) => {
   refresh()
 }
 
+const toggleTodo = (event) => {
+  const index = parseInt(event.currentTarget.id)
+  appTodo.boundToggleTodo(index)
+  refresh()
+}
+
 const refresh = () => {
   document.getElementById('todos').innerHTML = ''
   
   document.getElementById('todos').innerHTML = appTodo.store.getState().todos
-                                                .map((todo) => `<li id=${todo.index}>${todo.text} <button id=${todo.index}>delete</button></li>`)
+                                                .map((todo) => {
+                                                  const text = todo.completed ? 
+                                                                    `<strike>${todo.text}</strike>` :
+                                                                    todo.text
+                                                  return `<li style="cursor: pointer" id=${todo.index}>
+                                                    ${text}
+                                                    <button id=${todo.index}>delete</button>
+                                                  </li>`
+                                                })
                                                 .toString()
                                                 .replace(/,/g, '')
 
   const lis = Array.from(document.querySelectorAll('li'))
   lis.forEach((elem) => {
-    elem.addEventListener('click', deleteTodo)
+    elem.addEventListener('click', toggleTodo, false)
+    elem.querySelector('button').addEventListener('click', deleteTodo)
   })
 }
