@@ -5,39 +5,27 @@ import 'babel-polyfill'
 import { expect } from 'chai'
 import deepFreeze from 'deep-freeze'
 import * as appTodo from '../../app/app'
+import { VisibilityFilters } from '../../app/actions'
 
 describe('Todo', () => {
   context('App', () => {
     it("should return an array of Todos when it is empty and receive a todo", () => {
-      let expected = {
-            todos: [{
-              text: 'first text',
-              index: 1,
-              completed: false
-            }]
-          }
+      let expected = [
+        {
+          text: 'first text',
+          index: 1,
+          completed: false
+        }
+      ]
 
       deepFreeze(appTodo)
 
       appTodo.boundAddTodo('first text')
 
-      expect(expected).to.deep.equal(appTodo.store.getState())
+      expect(expected).to.deep.equal(appTodo.store.getState().todos)
     })
 
     it("should return an array with two Todos when it has one todo", () => {
-      let expected = {
-            todos: [{
-              text: 'first text',
-              index: 1,
-              completed: false
-            },
-            {
-              text: 'second text',
-              index: 2,
-              completed: false
-            }]
-          }
-
       deepFreeze(appTodo)
 
       appTodo.boundAddTodo('second text')
@@ -46,13 +34,13 @@ describe('Todo', () => {
     })
 
     it("should return an array with one todo when it has two todos", () => {
-      let expected = {
-            todos: [{
-              text: 'first text',
-              index: 1,
-              completed: false
-            }]
-          }
+      let expected = [
+        {
+          text: 'first text',
+          index: 1,
+          completed: false
+        }
+      ]
 
       deepFreeze(appTodo)
 
@@ -62,13 +50,13 @@ describe('Todo', () => {
     })
 
     it("should return an array with one todo when the index informed doesn't exist", () => {
-      let expected = {
-            todos: [{
-              text: 'first text',
-              index: 1,
-              completed: false
-            }]
-          }
+      let expected = [
+        {
+          text: 'first text',
+          index: 1,
+          completed: false
+        }
+      ]
 
       deepFreeze(appTodo)
 
@@ -78,9 +66,7 @@ describe('Todo', () => {
     })
 
     it("should return an empty array when it has one todo", () => {
-      let expected = {
-            todos: []
-          }
+      let expected = []
 
       deepFreeze(appTodo)
 
@@ -90,19 +76,19 @@ describe('Todo', () => {
     })
 
     it("should return an array with one incomplete Todo when it is empty", () => {
-      let expected = {
-            todos: [{
-              text: 'first text',
-              index: 1,
-              completed: false
-            }]
-          }
+      let expected = [
+        {
+          text: 'first text',
+          index: 1,
+          completed: false
+        }
+      ]
 
       deepFreeze(appTodo)
 
       appTodo.boundAddTodo('first text')
 
-      expect(expected).to.deep.equal(appTodo.store.getState())
+      expect(expected).to.deep.equal(appTodo.store.getState().todos)
     })
 
     it("should return an array with one complete Todo when it was incompleted", () => {
@@ -119,6 +105,21 @@ describe('Todo', () => {
       appTodo.boundToggleTodo(1)
 
       expect(false).to.be.equal(appTodo.store.getState().todos[0].completed)
+    })
+
+    it("should return as initial visibility filter SHOW_ALL", () => {
+      deepFreeze(appTodo)
+
+
+      expect(VisibilityFilters.SHOW_ALL).to.be.equal(appTodo.store.getState().visibilityFilter)
+    })
+
+    it("should return the visibility filter as SHOW_COMPLETED when this filter is informed and before was SHOW_ALL", () => {
+      deepFreeze(appTodo)
+
+      appTodo.boundSetVisibilityFilter(VisibilityFilters.SHOW_COMPLETED)
+
+      expect(VisibilityFilters.SHOW_COMPLETED).to.be.equal(appTodo.store.getState().visibilityFilter)
     })
   })
 })
