@@ -4,7 +4,7 @@ import 'babel-polyfill'
 
 import { expect } from 'chai'
 import deepFreeze from 'deep-freeze'
-import { addTodo, removeTodo, toggleTodo, ADD_TODO, REMOVE_TODO, TOGGLE_TODO } from '../../app/actions'
+import { addTodo, removeTodo, toggleTodo, setVisibilityFilter, VisibilityFilters, ADD_TODO, REMOVE_TODO, TOGGLE_TODO, SET_VISIBILITY_FILTER } from '../../app/actions'
 
 describe('Todo', () => {
   context('Actions', () => {
@@ -37,6 +37,16 @@ describe('Todo', () => {
           todoReturn = toggleTodo(1)
 
       expect(expected).to.deep.equal(todoReturn)
+    })
+
+    it("should return an object with the type as SET_VISIBILITY_FILTER and the filter", () => {
+      let expected = {
+            type: SET_VISIBILITY_FILTER,
+            filter: VisibilityFilters.SHOW_ALL
+          },
+          visibilityReturn = setVisibilityFilter(VisibilityFilters.SHOW_ALL)
+
+      expect(expected).to.deep.equal(visibilityReturn)
     })
   })
 })
