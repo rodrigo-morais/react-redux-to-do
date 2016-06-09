@@ -7,6 +7,24 @@ document.getElementById('add').addEventListener('click', () => {
   refresh()
 })
 
+document.getElementById('SHOW_ALL').addEventListener('click', (event) => {
+  removeLinkDecoration()
+  event.target.style.textDecoration = 'underline'
+  refresh()
+})
+
+document.getElementById('SHOW_COMPLETED').addEventListener('click', (event) => {
+  removeLinkDecoration()
+  event.target.style.textDecoration = 'underline'
+  refresh(appTodo.getCompleted())
+})
+
+document.getElementById('SHOW_ACTIVED').addEventListener('click', (event) => {
+  removeLinkDecoration()
+  event.target.style.textDecoration = 'underline'
+  refresh(appTodo.getActived())
+})
+
 const deleteTodo = (event) => {
   const index = parseInt(event.target.id)
   appTodo.boundRemoveTodo(index)
@@ -19,10 +37,12 @@ const toggleTodo = (event) => {
   refresh()
 }
 
-const refresh = () => {
+const refresh = (todos) => {
+  const data = todos || appTodo.store.getState().todos
+
   document.getElementById('todos').innerHTML = ''
   
-  document.getElementById('todos').innerHTML = appTodo.store.getState().todos
+  document.getElementById('todos').innerHTML = data
                                                 .map((todo) => {
                                                   const text = todo.completed ? 
                                                                     `<strike>${todo.text}</strike>` :
@@ -41,3 +61,5 @@ const refresh = () => {
     elem.querySelector('button').addEventListener('click', deleteTodo)
   })
 }
+
+const removeLinkDecoration = () => Array.from(document.getElementsByName('visibility')).forEach((link) => link.style.textDecoration = 'none')

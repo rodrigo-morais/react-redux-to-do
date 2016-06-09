@@ -99,6 +99,18 @@ describe('Todo', () => {
       expect(true).to.be.equal(appTodo.store.getState().todos[0].completed)
     })
 
+    it("should return one Todo when get completed and Todos list has one element and it is completed", () => {
+      deepFreeze(appTodo)
+
+      expect(1).to.be.equal(appTodo.getCompleted().length)
+    })
+
+    it("should not return Todos when get actived and Todos list has one element and it is completed", () => {
+      deepFreeze(appTodo)
+
+      expect(0).to.be.equal(appTodo.getActived().length)
+    })
+
     it("should return an array with one incomplete Todo when it was completed", () => {
       deepFreeze(appTodo)
 
