@@ -3,9 +3,6 @@ import ReactDOM from 'react-dom'
 import * as appTodo from './app'
 import App from './appComponent'
 
-
-appTodo.boundAddTodo('First')
-
 const render = () => ReactDOM.render(<App store = { appTodo.store } />, document.getElementById('app'))
 
 appTodo.store.subscribe(render)

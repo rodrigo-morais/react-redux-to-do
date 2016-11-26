@@ -1,10 +1,17 @@
 import { VisibilityFilters, addTodo, removeTodo, toggleTodo, setVisibilityFilter } from './actions'
 import reducers from './reducers'
 import { createStore } from '../node_modules/redux/dist/redux'
+import { saveState, loadState } from './localStorage'
 
 const { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVED } = VisibilityFilters
+console.log('f', loadState())
+export const store = createStore(reducers, loadState())
 
-export const store = createStore(reducers)
+store.subscribe(() => {
+  saveState({
+    todos: store.getState().todos
+  })
+})
 
 export const boundAddTodo = (text) => store.dispatch(addTodo( store.getState().todos.length + 1, text))
 export const boundRemoveTodo = (index) => store.dispatch(removeTodo(index))
